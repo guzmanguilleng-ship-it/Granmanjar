@@ -10,7 +10,8 @@ source.main_filename = mi_negocio.py
 
 version = 1.0
 
-requirements = python3,kivy,setuptools
+requirements = python3,kivy
+
 
 orientation = portrait
 fullscreen = 0
