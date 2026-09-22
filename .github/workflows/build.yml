@@ -30,7 +30,7 @@ jobs:
     - name: Instalar Buildozer y Cython
       run: |
         pip install --upgrade pip
-        pip install --upgrade cython==0.30.10 buildozer
+        pip install cython buildozer
 
     - name: Compilar APK
       run: |
