@@ -25,18 +25,23 @@ jobs:
     - name: Instalar dependencias de compilación
       run: |
         sudo apt-get update
-        sudo apt-get install -y libltdl-dev libffi-dev libssl-dev python3-pip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake libstdc++6 patch
+        sudo apt-get install -y libltdl-dev libffi-dev libssl-dev python3-pip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake libstdc++6 patch unzip
 
     - name: Instalar Buildozer y Cython
       run: |
         pip install --upgrade pip
         pip install cython buildozer
 
-    - name: Preparar SDK y licencias
+    - name: Instalar SDK y Herramientas previas
       run: |
-        mkdir -p ~/.buildozer/android/platform/android-sdk/licenses
-        echo "24333f8a43b682ff28c500a6ef2f62363045239a" > ~/.buildozer/android/platform/android-sdk/licenses/android-sdk-license
-        echo "d56f5187479451eabf01fb78af6dfcb131a648ab" >> ~/.buildozer/android/platform/android-sdk/licenses/android-sdk-license
+        mkdir -p ~/.buildozer/android/platform/android-sdk
+        cd ~/.buildozer/android/platform/android-sdk
+        wget -q https://dl.google.com/android/repository/commandlinetools-linux-6514223_latest.zip -O commandlinetools.zip
+        unzip -q commandlinetools.zip
+        mkdir -p cmdline-tools/latest
+        mv bin lib cmdline-tools/latest/
+        rm commandlinetools.zip
+        yes | cmdline-tools/latest/bin/sdkmanager --sdk_root=$HOME/.buildozer/android/platform/android-sdk --licenses
 
     - name: Compilar APK
       run: |
