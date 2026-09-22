@@ -6,17 +6,38 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
+
     steps:
-      - uses: actions/checkout@v4
+    - uses: actions/checkout@v4
 
-      - name: Compilar APK con Android Build
-        uses: snisito/android-build-action@v1
-        with:
-          buildozer_version: master
+    - name: Configurar Java
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'zulu'
+        java-version: '11'
 
-      - name: Subir el APK generado
-        uses: actions/upload-artifact@v4
-        with:
-          name: paquete-apk
-          path: bin/*.apk
+    - name: Configurar Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+
+    - name: Instalar dependencias de compilación
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libltdl-dev libffi-dev libssl-dev python3-pip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake libstdc++6 patch
+
+    - name: Instalar Buildozer y Cython
+      run: |
+        pip install --upgrade pip
+        pip install --upgrade cython==0.30.10 buildozer
+
+    - name: Compilar APK
+      run: |
+        buildozer -v android debug
+
+    - name: Subir el APK generado
+      uses: actions/upload-artifact@v4
+      with:
+        name: paquete-apk
+        path: bin/*.apk
