@@ -32,18 +32,6 @@ jobs:
         pip install --upgrade pip
         pip install cython buildozer
 
-    - name: Configurar SDK y Aceptar Licencias
-      run: |
-        ANDROID_SDK="$HOME/.buildozer/android/platform/android-sdk"
-        mkdir -p "$ANDROID_SDK/cmdline-tools/latest"
-        wget -q https://dl.google.com/android/repository/commandlinetools-linux-6514223_latest.zip -O /tmp/clt.zip
-        unzip -q /tmp/clt.zip -d /tmp/clt_extracted
-        mv /tmp/clt_extracted/bin "$ANDROID_SDK/cmdline-tools/latest/"
-        mv /tmp/clt_extracted/lib "$ANDROID_SDK/cmdline-tools/latest/"
-        rm -rf /tmp/clt.zip /tmp/clt_extracted
-        export PATH=$PATH:$ANDROID_SDK/cmdline-tools/latest/bin
-        yes | sdkmanager --licenses
-
     - name: Compilar APK
       run: |
         buildozer -v android debug
