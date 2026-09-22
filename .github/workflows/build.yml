@@ -1,0 +1,23 @@
+name: Compilar APK de Kivy
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Compilar con Buildozer
+      uses: ArtemSBulgakov/buildozer-action@v1
+      with:
+        command: buildozer -v android debug
+        
+    - name: Subir el APK generado
+      uses: actions/upload-artifact@v3
+      with:
+        name: paquete-apk
+        path: bin/*.apk
