@@ -33,8 +33,10 @@ jobs:
         pip install cython buildozer
 
     - name: Compilar APK
+      env:
+        BUILDER_SET_ANDROID_SDK: "1"
       run: |
-        buildozer -v android debug
+        yes | buildozer -v android debug
 
     - name: Subir el APK generado
       uses: actions/upload-artifact@v4
