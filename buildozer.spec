@@ -12,7 +12,6 @@ version = 1.0
 
 requirements = python3,kivy
 
-
 orientation = portrait
 fullscreen = 0
 
@@ -21,4 +20,4 @@ android.api = 33
 android.minapi = 21
 android.ndk = 25b
 android.archs = arm64-v8a
-p4a.accept_sdk_license = True
+p4a.branch = master
